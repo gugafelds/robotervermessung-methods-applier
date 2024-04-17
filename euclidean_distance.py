@@ -34,6 +34,18 @@ class EuclidianDistance:
 
         return d_min, p_min
 
+    def get_intersection(self, points_interpolation):
+        total = []
+        for i, p_intersect in enumerate(points_interpolation):
+            p_soll_i = self.get_point_soll(i)
+            obj = {
+                "x": np.array([p_soll_i[0], p_intersect[0]]).tolist(),
+                "y": np.array([p_soll_i[1], p_intersect[1]]).tolist(),
+                "z": np.array([p_soll_i[2], p_intersect[2]]).tolist(),
+            }
+            total.append(obj)
+        return total
+
     def compute_distance_method(self):
         euclidian_distances = []
         points_interpolation = []
@@ -56,6 +68,7 @@ class EuclidianDistance:
 
         euclidian_distances = np.array(euclidian_distances)
         return {
-            "max_distances": euclidian_distances.max(),
-            "average_distances": sum(euclidian_distances) / len(euclidian_distances)
+            "max_distance": euclidian_distances.max(),
+            "average_distance": sum(euclidian_distances) / len(euclidian_distances),
+            "intersection": self.get_intersection(points_interpolation),
         }
