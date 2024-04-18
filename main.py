@@ -1,5 +1,5 @@
 import functions_framework
-from euclidean_distance import EuclidianDistance
+from euclidean_distance import EuclideanDistance
 from flask import jsonify
 import json
 
@@ -20,7 +20,7 @@ def euclidean_distance(request):
         raw_data = request.get_data(as_text=True)
         try:
             data = json.loads(raw_data)
-            response = EuclidianDistance(data).compute_distance_method()
+            response = EuclideanDistance(data).compute_distance_method()
 
         except ValueError as e:
             return f"Error parsing JSON: {e}", 400

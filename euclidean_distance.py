@@ -1,11 +1,14 @@
 import numpy as np
+from db_connect import DBConnect
 
 
-class EuclidianDistance:
+class EuclideanDistance:
     def __init__(self, data):
         self.data = data
         self.n_points_ist = len(self.data['x_ist'])
         self.n_points_soll = len(self.data['x_soll'])
+        self.trajectory_header_id = self.data['trajectory_header_id']
+        self.db = DBConnect()
 
     def get_point_soll(self, i):
         return np.array([self.data['x_soll'][i], self.data['y_soll'][i], self.data['z_soll'][i]])
@@ -47,7 +50,7 @@ class EuclidianDistance:
         return total
 
     def compute_distance_method(self):
-        euclidian_distances = []
+        euclidean_distances = []
         points_interpolation = []
         for i in range(self.n_points_soll - 1):
             p_soll_i = self.get_point_soll(i)
@@ -64,11 +67,34 @@ class EuclidianDistance:
             if d_min_1 < d_min_2:
                 d_min, p_min = d_min_1, p_min_1
             points_interpolation.append(p_min)
-            euclidian_distances.append(d_min)
+            euclidean_distances.append(d_min)
 
-        euclidian_distances = np.array(euclidian_distances)
+        euclidean_distances = np.array(euclidean_distances)
+        
+        metrics_id = self.trajectory_header_id
+        max_distance = euclidean_distances.max()
+        average_distance = sum(euclidean_distances) / len(euclidean_distances)
+
+        euclidean_metrics_data = {
+            "metrics_id": metrics_id,
+            "max_distance": max_distance,
+            "average_distance": average_distance,
+        }
+
+        self.send_results_to_db(euclidean_metrics_data, metrics_id)
+
         return {
-            "max_distance": euclidian_distances.max(),
-            "average_distance": sum(euclidian_distances) / len(euclidian_distances),
+            "max_distance": max_distance,
+            "average_distance": average_distance,
             "intersection": self.get_intersection(points_interpolation),
         }
+    
+    def send_results_to_db(self, results, query):
+        self.db.connect()
+        check = self.db.collection_metrics.find(query)
+        if len(list(check)) == 0:
+            print("No file was found! Creating a new one...")
+            self.db.collection_metrics.insert_one(results)
+        else:
+            print("There is already a file with this ID!")
+
