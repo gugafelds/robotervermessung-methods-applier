@@ -1,7 +1,4 @@
 {
-    "connection_string": "mongodb+srv://vmarquim:vmarquim@cluster0.su3gj7l.mongodb.net/?retryWrites=true&w=majority",
-    "username": "vmarquim",
-    "password": "vmarquim",
     "db_name": "robotervermessung",
     "collection_name_header": "header" ,   
     "collection_name_trajectories": "data",

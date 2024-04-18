@@ -18,10 +18,7 @@ class DBConnect:
     def __init__(self):
         db_config = DBConfig()
         config = db_config.config
-        print(config)
-        self.user = quote(config["username"])
-        self.password = quote(config["password"])
-        self.uri = config["connection_string"]
+        self.uri = os.environ.get('MONGODB_URI')
         self.db_name = config["db_name"]
         self.collection_name_header = config["collection_name_header"]
         self.collection_name_trajectories = config["collection_name_trajectories"]

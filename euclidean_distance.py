@@ -1,4 +1,5 @@
 import numpy as np
+from metrics_type import MetricType
 from db_connect import DBConnect
 
 
@@ -70,31 +71,37 @@ class EuclideanDistance:
             euclidean_distances.append(d_min)
 
         euclidean_distances = np.array(euclidean_distances)
-        
-        metrics_id = self.trajectory_header_id
+
         max_distance = euclidean_distances.max()
         average_distance = sum(euclidean_distances) / len(euclidean_distances)
 
         euclidean_metrics_data = {
-            "metrics_id": metrics_id,
-            "max_distance": max_distance,
-            "average_distance": average_distance,
+            "trajectory_header_id": self.trajectory_header_id,
+            "euclidean_max_distance": max_distance,
+            "euclidean_average_distance": average_distance,
+            "metric_type": 'euclidean'
         }
 
-        self.send_results_to_db(euclidean_metrics_data, metrics_id)
+        saved = self.try_save_results(euclidean_metrics_data)
 
         return {
-            "max_distance": max_distance,
-            "average_distance": average_distance,
+            **euclidean_metrics_data,
+            "saved_metrics": saved,
             "intersection": self.get_intersection(points_interpolation),
         }
-    
-    def send_results_to_db(self, results, query):
+
+    def try_save_results(self, results):
         self.db.connect()
-        check = self.db.collection_metrics.find(query)
-        if len(list(check)) == 0:
-            print("No file was found! Creating a new one...")
+        metric_exists = self.db.collection_metrics.count_documents(
+            {
+                "trajectory_header_id": self.trajectory_header_id,
+                "metric_type": "euclidean"
+            }
+        )
+
+        if metric_exists == 0:
             self.db.collection_metrics.insert_one(results)
-        else:
-            print("There is already a file with this ID!")
+            return True
+
+        return False
 
