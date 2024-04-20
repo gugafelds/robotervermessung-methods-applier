@@ -2,6 +2,8 @@ import functions_framework
 from euclidean_distance import EuclideanDistance
 from flask import jsonify
 import json
+from bson import json_util
+
 
 headers = {
     'Access-Control-Allow-Origin': "*",
@@ -24,6 +26,6 @@ def euclidean_distance(request):
 
         except ValueError as e:
             return f"Error parsing JSON: {e}", 400
-        return jsonify(response), 200, headers
+        return jsonify(json_util.dumps(response)), 200, headers
 
     return "Unsupported HTTP method", 405
