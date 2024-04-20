@@ -74,11 +74,15 @@ class EuclideanDistance:
 
         max_distance = euclidean_distances.max()
         average_distance = sum(euclidean_distances) / len(euclidean_distances)
+        standard_deviation = np.std(euclidean_distances)
+
 
         euclidean_metrics_data = {
             "trajectory_header_id": self.trajectory_header_id,
             "euclidean_max_distance": max_distance,
             "euclidean_average_distance": average_distance,
+            "euclidean_standard_deviation": standard_deviation,
+            "euclidean_intersections": self.get_intersection(points_interpolation),
             "metric_type": 'euclidean'
         }
 
@@ -87,7 +91,6 @@ class EuclideanDistance:
         return {
             **euclidean_metrics_data,
             "saved_metrics": saved,
-            "intersection": self.get_intersection(points_interpolation),
         }
 
     def try_save_results(self, results):

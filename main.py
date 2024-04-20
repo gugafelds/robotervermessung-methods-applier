@@ -4,12 +4,12 @@ from flask import jsonify
 import json
 
 headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '3600'
+    'Access-Control-Allow-Origin': "*",
+    'Access-Control-Allow-Methods': "*",
+    'Access-Control-Allow-Headers': "*",
+    'Access-Control-Max-Age': '3600',
+    'Vary': 'Origin'
 }
-
 
 @functions_framework.http
 def euclidean_distance(request):

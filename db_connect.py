@@ -3,8 +3,6 @@ import os
 
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from urllib.parse import quote
-
 
 class DBConfig:
     def __init__(self):
@@ -12,7 +10,6 @@ class DBConfig:
         config_full_path = os.path.join(cd, "dbconfig.json")
         file = open(config_full_path, "r")
         self.config = json.loads(file.read())
-
 
 class DBConnect:
     def __init__(self):
