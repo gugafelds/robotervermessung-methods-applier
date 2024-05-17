@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from db_connect import DBConnect
 
-class DTW_Johnen_V2:
+class DTW_Johnen:
     def __init__(self, data):
         self.data = data
         self.data_id = self.data['trajectory_header_id']
