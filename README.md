@@ -1,6 +1,6 @@
 # robotervermessung-methods-applier
 
-This repository is used to store the cloud functions used on [Robotervermessung](www.lps-robotervermessung.de).
+This repository is used to store the cloud functions used on [Robotervermessung](https://www.lps-robotervermessung.de/).
 
 ### info
 
