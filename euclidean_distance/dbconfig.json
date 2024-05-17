@@ -1,0 +1,7 @@
+{
+    "db_name": "robotervermessung",
+    "collection_name_header": "header" ,   
+    "collection_name_trajectories": "data",
+    "collection_name_metrics": "metrics"
+
+}
