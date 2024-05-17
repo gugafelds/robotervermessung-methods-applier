@@ -1,5 +1,4 @@
 import numpy as np
-from metrics_type import MetricType
 from db_connect import DBConnect
 
 
@@ -79,6 +78,7 @@ class EuclideanDistance:
 
         euclidean_metrics_data = {
             "trajectory_header_id": self.trajectory_header_id,
+            "euclidean_distances": euclidean_distances,
             "euclidean_max_distance": max_distance,
             "euclidean_average_distance": average_distance,
             "euclidean_standard_deviation": standard_deviation,
